@@ -1,0 +1,69 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # Uncomment for GPU support:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  chromadb:
+    image: chromadb/chroma:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - ANONYMIZED_TELEMETRY=false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  forge-assistant:
+    build: .
+    image: registry.cloudforyour.work/forgeplatform/forge-assistant:latest
+    ports:
+      - "8100:8100"
+    environment:
+      - FORGE_ASSISTANT_OLLAMA_BASE_URL=http://ollama:11434
+      - FORGE_ASSISTANT_OLLAMA_MODEL=mistral:7b
+      - FORGE_ASSISTANT_CHROMA_HOST=chromadb
+      - FORGE_ASSISTANT_CHROMA_PORT=8000
+      - FORGE_ASSISTANT_LOG_LEVEL=INFO
+    depends_on:
+      ollama:
+        condition: service_healthy
+      chromadb:
+        condition: service_healthy
+
+  # One-shot: pull model and index docs on first start
+  setup:
+    image: curlimages/curl:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint: >
+      sh -c "
+        echo 'Pulling Ollama models...' &&
+        curl -s http://ollama:11434/api/pull -d '{\"name\": \"mistral:7b\"}' &&
+        curl -s http://ollama:11434/api/pull -d '{\"name\": \"nomic-embed-text\"}' &&
+        echo 'Models pulled successfully'
+      "
+
+volumes:
+  ollama_data:
+  chroma_data:
