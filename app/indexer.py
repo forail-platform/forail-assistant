@@ -9,10 +9,8 @@ import logging
 import os
 from pathlib import Path
 
-import httpx
-import chromadb
-
 from app.config import settings
+from app.db import get_chroma_collection, reset_collection, get_embedding_sync
 
 logger = logging.getLogger(__name__)
 
@@ -37,15 +35,6 @@ def chunk_text(text: str, chunk_size: int = None, overlap: int = None) -> list[s
     return chunks
 
 
-def get_embedding_sync(text: str) -> list[float]:
-    """Synchronous embedding generation for indexing."""
-    resp = httpx.post(
-        f"{settings.ollama_base_url}/api/embeddings",
-        json={"model": settings.ollama_embed_model, "prompt": text},
-        timeout=settings.ollama_timeout,
-    )
-    resp.raise_for_status()
-    return resp.json()["embedding"]
 
 
 def load_documents(docs_dir: Path = None) -> list[dict]:
@@ -77,22 +66,10 @@ def index_documents(rebuild: bool = False):
     Args:
         rebuild: If True, delete existing collection and re-index everything.
     """
-    client = chromadb.HttpClient(
-        host=settings.chroma_host,
-        port=settings.chroma_port,
-    )
-
     if rebuild:
-        try:
-            client.delete_collection(settings.chroma_collection)
-            logger.info("Deleted existing collection: %s", settings.chroma_collection)
-        except Exception:
-            pass
-
-    collection = client.get_or_create_collection(
-        name=settings.chroma_collection,
-        metadata={"hnsw:space": "cosine"},
-    )
+        collection = reset_collection()
+    else:
+        collection = get_chroma_collection()
 
     documents = load_documents()
     if not documents:

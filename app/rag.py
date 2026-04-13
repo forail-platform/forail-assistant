@@ -5,40 +5,11 @@ import logging
 from typing import AsyncGenerator
 
 import httpx
-import chromadb
 
 from app.config import settings
+from app.db import get_chroma_collection, get_embedding
 
 logger = logging.getLogger(__name__)
-
-_chroma_client = None
-_collection = None
-
-
-def get_chroma_collection():
-    """Lazy-initialize ChromaDB client and collection."""
-    global _chroma_client, _collection
-    if _collection is None:
-        _chroma_client = chromadb.HttpClient(
-            host=settings.chroma_host,
-            port=settings.chroma_port,
-        )
-        _collection = _chroma_client.get_or_create_collection(
-            name=settings.chroma_collection,
-            metadata={"hnsw:space": "cosine"},
-        )
-    return _collection
-
-
-async def get_embedding(text: str) -> list[float]:
-    """Generate embedding using Ollama."""
-    async with httpx.AsyncClient(timeout=settings.ollama_timeout) as client:
-        resp = await client.post(
-            f"{settings.ollama_base_url}/api/embeddings",
-            json={"model": settings.ollama_embed_model, "prompt": text},
-        )
-        resp.raise_for_status()
-        return resp.json()["embedding"]
 
 
 async def retrieve_context(query: str, top_k: int = None) -> list[str]:
