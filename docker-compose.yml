@@ -14,7 +14,7 @@ services:
     #           count: 1
     #           capabilities: [gpu]
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:11434/"]
+      test: ["CMD", "ollama", "list"]
       interval: 30s
       timeout: 5s
       retries: 5
@@ -28,14 +28,14 @@ services:
     environment:
       - ANONYMIZED_TELEMETRY=false
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8000' || exit 1"]
       interval: 30s
       timeout: 5s
       retries: 3
 
   forge-assistant:
     build: .
-    image: registry.cloudforyour.work/forgeplatform/forge-assistant:latest
+    image: registry.cloudforyour.work/forge-platform/forge-assistant:latest
     ports:
       - "8100:8100"
     environment:
