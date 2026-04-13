@@ -13,8 +13,10 @@
 services:
   forge-assistant:
     networks:
+      - default
       - forge
 
 networks:
   forge:
+    name: forge-deploy_forge
     external: true
