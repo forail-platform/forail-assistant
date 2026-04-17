@@ -12,22 +12,20 @@ Forge Assistant is a standalone microservice that provides AI-powered help for t
                                     │ SSE (Server-Sent Events)
                                     ▼
                     ┌─────────────────────────────────┐
-                    │       Forge Assistant            │
-                    │       (FastAPI + Python)         │
+                    │   Forge Assistant (all-in-one)   │
                     │                                  │
-                    │  /api/v1/chat    → SSE stream    │
-                    │  /api/v1/health  → status JSON   │
-                    │  /api/v1/index   → re-index docs │
-                    └──────┬──────────────┬────────────┘
-                           │              │
-              ┌────────────▼──┐    ┌──────▼──────────┐
-              │    ChromaDB   │    │     Ollama       │
-              │  (Vector DB)  │    │   (Local LLM)    │
-              │               │    │                  │
-              │ Indexed docs  │    │ mistral:7b       │
-              │ as embeddings │    │ nomic-embed-text  │
-              └───────────────┘    └──────────────────┘
+                    │  FastAPI  /api/v1/chat  → SSE    │
+                    │           /api/v1/health→ JSON   │
+                    │           /api/v1/index → reindex│
+                    │                                  │
+                    │  Ollama   gemma3:1b (LLM)        │
+                    │           nomic-embed-text (emb)  │
+                    │                                  │
+                    │  ChromaDB (embedded vector store) │
+                    └─────────────────────────────────┘
 ```
+
+> **Note:** All three components (FastAPI, Ollama, ChromaDB) run inside a single Docker container. The entrypoint script starts Ollama and ChromaDB as background processes before launching the FastAPI server.
 
 ## Components
 
@@ -48,11 +46,11 @@ The core service, responsible for:
 
 ### Ollama (LLM Server)
 
-Runs the language model locally. Two models are used:
-- **mistral:7b** (or configured model) — for chat generation
+Runs the language model locally inside the same container. Two models are used:
+- **gemma3:1b** (default, or configured model) — for chat generation
 - **nomic-embed-text** — for generating document/query embeddings
 
-Ollama runs as a separate Docker container. GPU acceleration is optional but recommended.
+The Ollama binary is copied from the official `ollama/ollama` image at build time. GPU acceleration is optional but recommended for larger models.
 
 ### ChromaDB (Vector Store)
 

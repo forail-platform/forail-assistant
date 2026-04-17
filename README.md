@@ -4,18 +4,19 @@ AI-powered assistant for the Forge infrastructure automation platform. Uses a lo
 
 ## Overview
 
-Forge Assistant is an **optional, standalone service** that can be plugged into or removed from any Forge deployment. It runs as a separate container alongside Ollama (LLM) and ChromaDB (vector store).
+Forge Assistant is an **optional, standalone service** that can be plugged into or removed from any Forge deployment. It runs as a **single all-in-one container** with Ollama (LLM) and ChromaDB (embedded) bundled inside.
 
 ```
-┌──────────────────┐     ┌────────────────┐     ┌─────────────┐
-│  Forge Frontend  │────▶│ Forge Assistant │────▶│   Ollama     │
-│  (React chat)    │ SSE │ (FastAPI)       │     │ mistral:7b   │
-└──────────────────┘     └───────┬─────────┘     └─────────────┘
-                                 │
-                          ┌──────▼──────┐
-                          │  ChromaDB   │
-                          │ (vector DB) │
-                          └─────────────┘
+┌──────────────────┐     ┌──────────────────────────────────────┐
+│  Forge Frontend  │────▶│         Forge Assistant               │
+│  (React chat)    │ SSE │  ┌──────────┐  ┌──────────────────┐  │
+└──────────────────┘     │  │  Ollama   │  │    FastAPI        │  │
+                         │  │ gemma3:1b │  │  (RAG pipeline)   │  │
+                         │  └──────────┘  └────────┬──────────┘  │
+                         │                ┌────────▼──────────┐  │
+                         │                │  ChromaDB (embed)  │  │
+                         │                └───────────────────┘  │
+                         └──────────────────────────────────────┘
 ```
 
 ## Features
@@ -29,13 +30,11 @@ Forge Assistant is an **optional, standalone service** that can be plugged into 
 ## Quick Start
 
 ```bash
-# Start all services (Ollama + ChromaDB + Assistant)
+# Start the assistant (all-in-one: Ollama + ChromaDB + FastAPI)
 docker compose up -d
 
-# Pull LLM models (first time only — takes a few minutes)
-docker compose run --rm setup
-
-# Index documentation
+# Wait ~2 minutes for Ollama to load the model on first start,
+# then index documentation
 curl -X POST http://localhost:8100/api/v1/index
 
 # Test it
@@ -43,6 +42,8 @@ curl -X POST http://localhost:8100/api/v1/chat \
   -H 'Content-Type: application/json' \
   -d '{"message": "How do I create a job template?"}'
 ```
+
+> **Note:** On first start, the entrypoint automatically pulls the LLM model (`gemma3:1b`) and embedding model (`nomic-embed-text`). The healthcheck `start_period` is 120 seconds to allow time for this.
 
 ## Integration with Forge
 
@@ -61,10 +62,10 @@ All settings via environment variables with `FORGE_ASSISTANT_` prefix:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `FORGE_ASSISTANT_OLLAMA_BASE_URL` | `http://ollama:11434` | Ollama API URL |
-| `FORGE_ASSISTANT_OLLAMA_MODEL` | `mistral:7b` | LLM model |
+| `FORGE_ASSISTANT_OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama API URL (localhost — runs inside the same container) |
+| `FORGE_ASSISTANT_OLLAMA_MODEL` | `gemma3:1b` | LLM model |
 | `FORGE_ASSISTANT_OLLAMA_EMBED_MODEL` | `nomic-embed-text` | Embedding model |
-| `FORGE_ASSISTANT_CHROMA_HOST` | `chromadb` | ChromaDB host |
+| `FORGE_ASSISTANT_CHROMA_HOST` | `localhost` | ChromaDB host (localhost — embedded in the same container) |
 | `FORGE_ASSISTANT_CHROMA_PORT` | `8000` | ChromaDB port |
 | `FORGE_ASSISTANT_RAG_TOP_K` | `5` | Number of docs to retrieve |
 | `FORGE_ASSISTANT_LOG_LEVEL` | `INFO` | Logging level |

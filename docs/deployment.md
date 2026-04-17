@@ -9,21 +9,26 @@ cd forge-assistant
 docker compose up -d
 ```
 
-This starts three services:
-- **ollama** — LLM server on port 11434
-- **chromadb** — vector store on port 8000
-- **forge-assistant** — API on port 8100
+This starts a **single all-in-one container** (`forge-assistant`) that bundles:
+- **Ollama** — LLM server (internal, port 11434)
+- **ChromaDB** — vector store (embedded, port 8000)
+- **FastAPI** — API server (exposed on port 8100)
 
 ### First-Time Setup
 
-```bash
-# 1. Pull LLM models (one-time, ~4 GB download)
-docker compose run --rm setup
+On first start, the entrypoint automatically pulls the LLM model (`gemma3:1b`) and embedding model (`nomic-embed-text`). Allow ~2 minutes for the initial model download.
 
-# 2. Index documentation
+```bash
+# 1. Start the container
+docker compose up -d
+
+# 2. Wait for health check to pass (start_period is 120s)
+docker compose logs -f forge-assistant
+
+# 3. Index documentation
 curl -X POST http://localhost:8100/api/v1/index
 
-# 3. Verify
+# 4. Verify
 curl http://localhost:8100/api/v1/health
 ```
 
@@ -73,7 +78,7 @@ For GPU-accelerated inference, uncomment the GPU section in `docker-compose.yml`
 
 ```yaml
 services:
-  ollama:
+  forge-assistant:
     deploy:
       resources:
         reservations:
@@ -107,10 +112,10 @@ Response time will be 10-20 seconds instead of 2-5 seconds.
 To remove the assistant from a running Forge deployment:
 
 ```bash
-# Stop assistant services
+# Stop assistant service
 docker compose -f docker-compose.yml \
   -f /path/to/forge-assistant/docker-compose.integration.yml \
-  down forge-assistant ollama chromadb
+  down forge-assistant
 
 # Or if running standalone
 cd forge-assistant && docker compose down -v
@@ -122,26 +127,19 @@ The Forge platform continues to work normally. The chat button disappears automa
 
 ## Backup and Restore
 
-### ChromaDB Data
+All persistent data (ChromaDB + Ollama models) is stored in the `assistant_data` volume mounted at `/data`:
 
 ```bash
 # Backup
-docker compose exec chromadb tar czf /tmp/chroma-backup.tar.gz /chroma/chroma
-docker compose cp chromadb:/tmp/chroma-backup.tar.gz ./backups/
+docker run --rm -v forge-assistant_assistant_data:/data -v $(pwd)/backups:/backup \
+  alpine tar czf /backup/assistant-data.tar.gz /data
 
 # Restore
-docker compose cp ./backups/chroma-backup.tar.gz chromadb:/tmp/
-docker compose exec chromadb tar xzf /tmp/chroma-backup.tar.gz -C /
+docker run --rm -v forge-assistant_assistant_data:/data -v $(pwd)/backups:/backup \
+  alpine tar xzf /backup/assistant-data.tar.gz -C /
 ```
 
-### Ollama Models
-
-Models are stored in the `ollama_data` volume. To backup:
-
-```bash
-docker run --rm -v forge-assistant_ollama_data:/data -v $(pwd)/backups:/backup \
-  alpine tar czf /backup/ollama-models.tar.gz /data
-```
+> **Tip:** Re-indexing docs (`curl -X POST http://localhost:8100/api/v1/index?rebuild=true`) is fast and often easier than restoring ChromaDB data. Model re-download is automatic on first start if models are missing.
 
 ---
 
