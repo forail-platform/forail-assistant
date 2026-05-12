@@ -1,15 +1,5 @@
 # Integration overlay for forge-deploy
-# Usage: docker compose -f docker-compose.yml -f path/to/forge-assistant/docker-compose.integration.yml up -d
-#
-# Add to forge-deploy's nginx.conf:
-#   location /assistant/ {
-#       proxy_pass http://forge-assistant:8100/;
-#       proxy_http_version 1.1;
-#       proxy_set_header Connection '';
-#       proxy_buffering off;
-#       proxy_cache off;
-#   }
-
+# Usage: docker compose -f docker-compose.yml -f docker-compose.integration.yml up -d
 services:
   forge-assistant:
     networks:

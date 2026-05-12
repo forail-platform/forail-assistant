@@ -5,18 +5,18 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Ollama
-    ollama_base_url: str = "http://ollama:11434"
-    ollama_model: str = "mistral:7b"
+    ollama_base_url: str = "http://localhost:11434"
+    ollama_model: str = "gemma3:1b"
     ollama_embed_model: str = "nomic-embed-text"
-    ollama_timeout: int = 120
+    ollama_timeout: int = 300
 
     # ChromaDB
-    chroma_host: str = "chromadb"
+    chroma_host: str = "localhost"
     chroma_port: int = 8000
     chroma_collection: str = "forge_docs"
 
     # RAG
-    rag_top_k: int = 5
+    rag_top_k: int = 3
     rag_chunk_size: int = 500
     rag_chunk_overlap: int = 50
 

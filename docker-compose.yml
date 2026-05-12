@@ -1,10 +1,14 @@
 services:
-  ollama:
-    image: ollama/ollama:latest
+  forge-assistant:
+    build: .
+    image: registry.cloudforyour.work/forge-platform/forge-assistant:latest
     ports:
-      - "11434:11434"
+      - "8100:8100"
     volumes:
-      - ollama_data:/root/.ollama
+      - assistant_data:/data
+    environment:
+      - FORGE_ASSISTANT_OLLAMA_MODEL=gemma3:1b
+      - FORGE_ASSISTANT_LOG_LEVEL=INFO
     # Uncomment for GPU support:
     # deploy:
     #   resources:
@@ -14,56 +18,12 @@ services:
     #           count: 1
     #           capabilities: [gpu]
     healthcheck:
-      test: ["CMD", "ollama", "list"]
+      test: ["CMD", "curl", "-sf", "http://localhost:8100/api/v1/health"]
       interval: 30s
-      timeout: 5s
-      retries: 5
-
-  chromadb:
-    image: chromadb/chroma:latest
-    ports:
-      - "8000:8000"
-    volumes:
-      - chroma_data:/chroma/chroma
-    environment:
-      - ANONYMIZED_TELEMETRY=false
-    healthcheck:
-      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8000' || exit 1"]
-      interval: 30s
-      timeout: 5s
+      timeout: 10s
+      start_period: 120s
       retries: 3
-
-  forge-assistant:
-    build: .
-    image: registry.cloudforyour.work/forge-platform/forge-assistant:latest
-    ports:
-      - "8100:8100"
-    environment:
-      - FORGE_ASSISTANT_OLLAMA_BASE_URL=http://ollama:11434
-      - FORGE_ASSISTANT_OLLAMA_MODEL=mistral:7b
-      - FORGE_ASSISTANT_CHROMA_HOST=chromadb
-      - FORGE_ASSISTANT_CHROMA_PORT=8000
-      - FORGE_ASSISTANT_LOG_LEVEL=INFO
-    depends_on:
-      ollama:
-        condition: service_healthy
-      chromadb:
-        condition: service_healthy
-
-  # One-shot: pull model and index docs on first start
-  setup:
-    image: curlimages/curl:latest
-    depends_on:
-      ollama:
-        condition: service_healthy
-    entrypoint: >
-      sh -c "
-        echo 'Pulling Ollama models...' &&
-        curl -s http://ollama:11434/api/pull -d '{\"name\": \"mistral:7b\"}' &&
-        curl -s http://ollama:11434/api/pull -d '{\"name\": \"nomic-embed-text\"}' &&
-        echo 'Models pulled successfully'
-      "
+    restart: unless-stopped
 
 volumes:
-  ollama_data:
-  chroma_data:
+  assistant_data:

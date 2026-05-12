@@ -76,7 +76,8 @@ async def stream_chat(
     messages.append({"role": "user", "content": message})
 
     # 3. Stream from Ollama
-    async with httpx.AsyncClient(timeout=settings.ollama_timeout) as client:
+    timeout = httpx.Timeout(connect=10.0, read=settings.ollama_timeout, write=10.0, pool=10.0)
+    async with httpx.AsyncClient(timeout=timeout) as client:
         async with client.stream(
             "POST",
             f"{settings.ollama_base_url}/api/chat",
