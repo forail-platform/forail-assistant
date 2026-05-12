@@ -5,13 +5,13 @@ from app.config import Settings
 
 def test_default_settings():
     s = Settings()
-    assert s.ollama_base_url == "http://ollama:11434"
-    assert s.ollama_model == "mistral:7b"
+    assert s.ollama_base_url == "http://localhost:11434"
+    assert s.ollama_model == "gemma3:1b"
     assert s.ollama_embed_model == "nomic-embed-text"
-    assert s.chroma_host == "chromadb"
+    assert s.chroma_host == "localhost"
     assert s.chroma_port == 8000
     assert s.chroma_collection == "forge_docs"
-    assert s.rag_top_k == 5
+    assert s.rag_top_k == 3
     assert s.rag_chunk_size == 500
     assert s.rag_chunk_overlap == 50
 
