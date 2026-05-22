@@ -4,6 +4,8 @@ All notable changes to the Forge Assistant will be documented in this file.
 
 ## [Unreleased]
 
+## [2026.05.0] - 2026-05-22
+
 ### Changed
 - Switched to an all-in-one Docker image bundling Ollama, ChromaDB (embedded), and the FastAPI service in one container. `docker-compose.yml` collapsed from three services + setup container to a single service with one `/data` volume.
 - Default Ollama model changed from `mistral:7b` to `gemma3:1b` (smaller and faster; reduced answer quality for general questions but adequate for short RAG-grounded responses).

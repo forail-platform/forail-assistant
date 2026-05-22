@@ -36,7 +36,7 @@ All configuration is via environment variables with the `FORGE_ASSISTANT_` prefi
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `FORGE_ASSISTANT_APP_NAME` | `Forge Assistant` | Application display name |
-| `FORGE_ASSISTANT_APP_VERSION` | `2026.04.0` | Version string |
+| `FORGE_ASSISTANT_APP_VERSION` | `2026.05.0` | Version string |
 | `FORGE_ASSISTANT_LOG_LEVEL` | `INFO` | Logging level (DEBUG, INFO, WARNING, ERROR) |
 | `FORGE_ASSISTANT_CORS_ORIGINS` | `*` | Comma-separated list of allowed CORS origins |
 

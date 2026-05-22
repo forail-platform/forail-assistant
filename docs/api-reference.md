@@ -14,10 +14,10 @@ GET /api/v1/health
 ```json
 {
   "status": "ok",
-  "version": "2026.04.0",
+  "version": "2026.05.0",
   "ollama": true,
   "chromadb": true,
-  "model": "mistral:7b"
+  "model": "gemma3:1b"
 }
 ```
 
