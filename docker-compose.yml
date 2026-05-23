@@ -1,7 +1,7 @@
 services:
   forge-assistant:
     build: .
-    image: registry.cloudforyour.work/forge-platform/forge-assistant:latest
+    image: ghcr.io/forgeplatform/forge-assistant:latest
     ports:
       - "8100:8100"
     volumes:
