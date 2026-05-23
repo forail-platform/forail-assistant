@@ -1,5 +1,8 @@
 # Forge Assistant
 
+> ⚠️ **Status: Under active development — not yet production-ready.**
+> The AI assistant is shipped as a **preview** to gather early feedback. APIs, models, default prompts, and capabilities may change between releases. Do not depend on it for critical workflows.
+
 AI-powered assistant for the Forge infrastructure automation platform. Uses a local Ollama LLM with RAG (Retrieval-Augmented Generation) to provide contextual help, error analysis, and documentation search.
 
 ## Overview
