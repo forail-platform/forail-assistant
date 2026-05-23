@@ -145,13 +145,12 @@ docker run --rm -v forge-assistant_assistant_data:/data -v $(pwd)/backups:/backu
 
 ## CI/CD Pipeline
 
-The included `Jenkinsfile` provides a complete pipeline:
+The repository ships with a **GitHub Actions** workflow in `.github/workflows/ci.yml`:
 
 1. **Lint** — ruff check on Python code
 2. **Test** — pytest with JUnit XML reporting
 3. **Build** — Docker image build
 4. **Scan** — Trivy container vulnerability scan
-5. **Push** — Push to Harbor registry (main branch only)
-6. **Deploy** — SSH deploy to production (main branch only)
+5. **Push** — Push to `ghcr.io/forgeplatform/forge-assistant` (main branch and version tags only)
 
-Tests must pass before any image is built or pushed.
+Tests must pass before any image is built or pushed. Releases use the built-in `GITHUB_TOKEN` with `packages: write` — no external secrets required.
