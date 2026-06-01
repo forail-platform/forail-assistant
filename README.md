@@ -1,5 +1,7 @@
 # Forge Assistant
 
+[![CI](https://github.com/forgeplatform/forge-assistant/actions/workflows/ci.yml/badge.svg)](https://github.com/forgeplatform/forge-assistant/actions/workflows/ci.yml)
+
 > ⚠️ **Status: Under active development — not yet production-ready.**
 > The AI assistant is shipped as a **preview** to gather early feedback. APIs, models, default prompts, and capabilities may change between releases. Do not depend on it for critical workflows.
 
