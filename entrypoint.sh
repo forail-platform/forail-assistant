@@ -13,9 +13,9 @@ done
 echo "==> Ollama ready."
 
 # Pull models if not present
-if ! ollama list 2>/dev/null | grep -q "${FORGE_ASSISTANT_OLLAMA_MODEL:-mistral:7b}"; then
-    echo "==> Pulling model ${FORGE_ASSISTANT_OLLAMA_MODEL:-mistral:7b}..."
-    ollama pull "${FORGE_ASSISTANT_OLLAMA_MODEL:-mistral:7b}"
+if ! ollama list 2>/dev/null | grep -q "${FORGE_ASSISTANT_OLLAMA_MODEL:-gemma3:1b}"; then
+    echo "==> Pulling model ${FORGE_ASSISTANT_OLLAMA_MODEL:-gemma3:1b}..."
+    ollama pull "${FORGE_ASSISTANT_OLLAMA_MODEL:-gemma3:1b}"
 fi
 
 if ! ollama list 2>/dev/null | grep -q "nomic-embed-text"; then
