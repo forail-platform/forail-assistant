@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     cors_origins: str = "*"
 
+    # Admin token required to call the re-indexing endpoint. When empty the
+    # endpoint is disabled (fail closed). Startup auto-indexing is unaffected.
+    admin_token: str = ""
+
     model_config = {"env_prefix": "FORGE_ASSISTANT_"}
 
 

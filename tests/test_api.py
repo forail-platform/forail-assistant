@@ -115,19 +115,33 @@ class TestChatEndpoint:
 class TestIndexEndpoint:
 
     def test_index_trigger(self, client):
-        with patch("app.indexer.index_documents", return_value=42):
-            resp = client.post("/api/v1/index")
+        with patch("app.main.settings.admin_token", "secret"), \
+             patch("app.indexer.index_documents", return_value=42):
+            resp = client.post("/api/v1/index", headers={"X-Admin-Token": "secret"})
             assert resp.status_code == 200
             data = resp.json()
             assert data["indexed_chunks"] == 42
             assert data["rebuild"] is False
 
     def test_index_rebuild(self, client):
-        with patch("app.indexer.index_documents", return_value=100):
-            resp = client.post("/api/v1/index?rebuild=true")
+        with patch("app.main.settings.admin_token", "secret"), \
+             patch("app.indexer.index_documents", return_value=100):
+            resp = client.post(
+                "/api/v1/index?rebuild=true", headers={"X-Admin-Token": "secret"}
+            )
             assert resp.status_code == 200
             data = resp.json()
             assert data["rebuild"] is True
+
+    def test_index_disabled_without_token(self, client):
+        with patch("app.main.settings.admin_token", ""):
+            resp = client.post("/api/v1/index")
+            assert resp.status_code == 503
+
+    def test_index_rejects_wrong_token(self, client):
+        with patch("app.main.settings.admin_token", "secret"):
+            resp = client.post("/api/v1/index", headers={"X-Admin-Token": "nope"})
+            assert resp.status_code == 401
 
 
 class TestOpenAPI:

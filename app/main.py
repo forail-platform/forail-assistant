@@ -3,7 +3,7 @@
 import json
 import logging
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sse_starlette.sse import EventSourceResponse
@@ -113,8 +113,24 @@ async def chat(req: ChatRequest):
 
 
 @app.post("/api/v1/index")
-async def trigger_index(rebuild: bool = False):
-    """Trigger document re-indexing. Admin only in production."""
+async def trigger_index(
+    rebuild: bool = False,
+    x_admin_token: str | None = Header(default=None),
+):
+    """
+    Trigger document re-indexing. Protected by FORGE_ASSISTANT_ADMIN_TOKEN.
+
+    When no admin token is configured the endpoint is disabled (503).
+    When configured, callers must send a matching `X-Admin-Token` header.
+    """
+    if not settings.admin_token:
+        raise HTTPException(
+            status_code=503,
+            detail="Indexing endpoint disabled: set FORGE_ASSISTANT_ADMIN_TOKEN",
+        )
+    if x_admin_token != settings.admin_token:
+        raise HTTPException(status_code=401, detail="Invalid or missing X-Admin-Token")
+
     from app.indexer import index_documents
     count = index_documents(rebuild=rebuild)
     return {"indexed_chunks": count, "rebuild": rebuild}
