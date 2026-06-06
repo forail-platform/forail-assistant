@@ -4,6 +4,7 @@
 
 > ⚠️ **Status: Under active development — not yet production-ready.**
 > The AI assistant is shipped as a **preview** to gather early feedback. APIs, models, default prompts, and capabilities may change between releases. Do not depend on it for critical workflows.
+> The path out of preview and the criteria for General Availability are tracked in the [GA Roadmap](docs/ga-roadmap.md); operational recovery is covered in [Disaster Recovery](docs/disaster-recovery.md).
 
 AI-powered assistant for the Forge infrastructure automation platform. Uses a local Ollama LLM with RAG (Retrieval-Augmented Generation) to provide contextual help, error analysis, and documentation search.
 
@@ -115,6 +116,8 @@ uvicorn app.main:app --reload --port 8100
 - [API Reference](docs/api-reference.md)
 - [Configuration](docs/configuration.md)
 - [Deployment](docs/deployment.md)
+- [GA Roadmap](docs/ga-roadmap.md) — preview → GA exit criteria and milestones
+- [Disaster Recovery](docs/disaster-recovery.md) — ChromaDB index backup, restore, and rebuild
 
 ## License
 
