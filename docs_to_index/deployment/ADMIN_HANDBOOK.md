@@ -93,7 +93,7 @@ The standard installation uses the compose file shipped in this repo.
 
 1. Clone or copy `forge-deploy` to the target host:
    ```bash
-   git clone https://github.com/forgeplatform/forge-deploy.git /opt/forge
+   git clone https://github.com/forgeplatform/forge-devops.git /opt/forge
    cd /opt/forge
    ```
 2. Copy the example env file and edit it:
