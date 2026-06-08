@@ -22,7 +22,7 @@ class Settings(BaseSettings):
 
     # App
     app_name: str = "Forge Assistant"
-    app_version: str = "2026.05.0"
+    app_version: str = "2026.05.1"
     log_level: str = "INFO"
     cors_origins: str = "*"
 
