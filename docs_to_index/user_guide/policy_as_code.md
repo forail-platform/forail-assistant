@@ -4,11 +4,11 @@ Policy-as-Code allows administrators to define guardrails that evaluate before a
 
 ## How It Works
 
-1. An administrator writes a Rego policy and registers it in Forge.
-2. Forge syncs the policy to the OPA sidecar (`forge-opa` container).
-3. When a user launches a job template, Forge sends a query to OPA with the launch context.
+1. An administrator writes a Rego policy and registers it in Forail.
+2. Forail syncs the policy to the OPA sidecar (`forail-opa` container).
+3. When a user launches a job template, Forail sends a query to OPA with the launch context.
 4. OPA evaluates all applicable policies and returns allow/warn/deny decisions.
-5. Based on the effective enforcement level, Forge either allows the launch, shows a warning, or blocks it.
+5. Based on the effective enforcement level, Forail either allows the launch, shows a warning, or blocks it.
 
 ## Enforcement Levels
 
@@ -32,7 +32,7 @@ If OPA is unreachable:
 
 Example: Block launches outside business hours:
 ```rego
-package forge.launch
+package forail.launch
 
 deny["Launches not allowed outside business hours (9-17 UTC)"] {
     hour := time.clock(time.now_ns())[0]

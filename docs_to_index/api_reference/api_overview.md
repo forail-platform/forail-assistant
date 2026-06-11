@@ -1,6 +1,6 @@
-# Forge API Reference
+# Forail API Reference
 
-The Forge REST API is available at `/api/v2/`. All endpoints require authentication (session cookie or Basic Auth with username:password).
+The Forail REST API is available at `/api/v2/`. All endpoints require authentication (session cookie or Basic Auth with username:password).
 
 ## Authentication
 

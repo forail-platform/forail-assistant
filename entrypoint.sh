@@ -13,9 +13,9 @@ done
 echo "==> Ollama ready."
 
 # Pull models if not present
-if ! ollama list 2>/dev/null | grep -q "${FORGE_ASSISTANT_OLLAMA_MODEL:-gemma3:1b}"; then
-    echo "==> Pulling model ${FORGE_ASSISTANT_OLLAMA_MODEL:-gemma3:1b}..."
-    ollama pull "${FORGE_ASSISTANT_OLLAMA_MODEL:-gemma3:1b}"
+if ! ollama list 2>/dev/null | grep -q "${FORAIL_ASSISTANT_OLLAMA_MODEL:-gemma3:1b}"; then
+    echo "==> Pulling model ${FORAIL_ASSISTANT_OLLAMA_MODEL:-gemma3:1b}..."
+    ollama pull "${FORAIL_ASSISTANT_OLLAMA_MODEL:-gemma3:1b}"
 fi
 
 if ! ollama list 2>/dev/null | grep -q "nomic-embed-text"; then
@@ -38,5 +38,5 @@ echo "==> ChromaDB ready."
 echo "==> Indexing documentation..."
 cd /app && python -c "from app.indexer import index_documents; count = index_documents(); print(f'Indexed {count} chunks')"
 
-echo "==> Starting Forge Assistant API..."
+echo "==> Starting Forail Assistant API..."
 exec uvicorn app.main:app --host 0.0.0.0 --port 8100

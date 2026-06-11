@@ -1,20 +1,20 @@
-# Forge Assistant
+# Forail Assistant
 
-[![CI](https://github.com/forgeplatform/forge-assistant/actions/workflows/ci.yml/badge.svg)](https://github.com/forgeplatform/forge-assistant/actions/workflows/ci.yml)
+[![CI](https://github.com/forail-platform/forail-assistant/actions/workflows/ci.yml/badge.svg)](https://github.com/forail-platform/forail-assistant/actions/workflows/ci.yml)
 
 > ⚠️ **Status: Under active development — not yet production-ready.**
 > The AI assistant is shipped as a **preview** to gather early feedback. APIs, models, default prompts, and capabilities may change between releases. Do not depend on it for critical workflows.
 > The path out of preview and the criteria for General Availability are tracked in the [GA Roadmap](docs/ga-roadmap.md); operational recovery is covered in [Disaster Recovery](docs/disaster-recovery.md).
 
-AI-powered assistant for the Forge infrastructure automation platform. Uses a local Ollama LLM with RAG (Retrieval-Augmented Generation) to provide contextual help, error analysis, and documentation search.
+AI-powered assistant for the Forail infrastructure automation platform. Uses a local Ollama LLM with RAG (Retrieval-Augmented Generation) to provide contextual help, error analysis, and documentation search.
 
 ## Overview
 
-Forge Assistant is an **optional, standalone service** that can be plugged into or removed from any Forge deployment. It runs as a **single all-in-one container** with Ollama (LLM) and ChromaDB (embedded) bundled inside.
+Forail Assistant is an **optional, standalone service** that can be plugged into or removed from any Forail deployment. It runs as a **single all-in-one container** with Ollama (LLM) and ChromaDB (embedded) bundled inside.
 
 ```
 ┌──────────────────┐     ┌──────────────────────────────────────┐
-│  Forge Frontend  │────▶│         Forge Assistant               │
+│  Forail Frontend  │────▶│         Forail Assistant               │
 │  (React chat)    │ SSE │  ┌──────────┐  ┌──────────────────┐  │
 └──────────────────┘     │  │  Ollama   │  │    FastAPI        │  │
                          │  │ gemma3:1b │  │  (RAG pipeline)   │  │
@@ -28,7 +28,7 @@ Forge Assistant is an **optional, standalone service** that can be plugged into 
 ## Features
 
 - **Contextual help** — knows which page the user is on
-- **Documentation search** — RAG-powered answers from indexed Forge/Ansible docs
+- **Documentation search** — RAG-powered answers from indexed Forail/Ansible docs
 - **Error explanation** — analyze failed job output
 - **Streaming responses** — token-by-token display via Server-Sent Events
 - **Privacy-first** — all data stays on your server, no cloud APIs
@@ -51,30 +51,30 @@ curl -X POST http://localhost:8100/api/v1/chat \
 
 > **Note:** On first start, the entrypoint automatically pulls the LLM model (`gemma3:1b`) and embedding model (`nomic-embed-text`). The healthcheck `start_period` is 120 seconds to allow time for this.
 
-## Integration with Forge
+## Integration with Forail
 
-To add the assistant to an existing Forge deployment:
+To add the assistant to an existing Forail deployment:
 
 ```bash
-cd /opt/forge
-docker compose -f docker-compose.yml -f path/to/forge-assistant/docker-compose.integration.yml up -d
+cd /opt/forail
+docker compose -f docker-compose.yml -f path/to/forail-assistant/docker-compose.integration.yml up -d
 ```
 
 The frontend automatically detects the assistant via health check and shows the chat button.
 
 ## Configuration
 
-All settings via environment variables with `FORGE_ASSISTANT_` prefix:
+All settings via environment variables with `FORAIL_ASSISTANT_` prefix:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `FORGE_ASSISTANT_OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama API URL (localhost — runs inside the same container) |
-| `FORGE_ASSISTANT_OLLAMA_MODEL` | `gemma3:1b` | LLM model |
-| `FORGE_ASSISTANT_OLLAMA_EMBED_MODEL` | `nomic-embed-text` | Embedding model |
-| `FORGE_ASSISTANT_CHROMA_HOST` | `localhost` | ChromaDB host (localhost — embedded in the same container) |
-| `FORGE_ASSISTANT_CHROMA_PORT` | `8000` | ChromaDB port |
-| `FORGE_ASSISTANT_RAG_TOP_K` | `5` | Number of docs to retrieve |
-| `FORGE_ASSISTANT_LOG_LEVEL` | `INFO` | Logging level |
+| `FORAIL_ASSISTANT_OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama API URL (localhost — runs inside the same container) |
+| `FORAIL_ASSISTANT_OLLAMA_MODEL` | `gemma3:1b` | LLM model |
+| `FORAIL_ASSISTANT_OLLAMA_EMBED_MODEL` | `nomic-embed-text` | Embedding model |
+| `FORAIL_ASSISTANT_CHROMA_HOST` | `localhost` | ChromaDB host (localhost — embedded in the same container) |
+| `FORAIL_ASSISTANT_CHROMA_PORT` | `8000` | ChromaDB port |
+| `FORAIL_ASSISTANT_RAG_TOP_K` | `5` | Number of docs to retrieve |
+| `FORAIL_ASSISTANT_LOG_LEVEL` | `INFO` | Logging level |
 
 ## Hardware Requirements
 
@@ -121,4 +121,4 @@ uvicorn app.main:app --reload --port 8100
 
 ## License
 
-Part of the [Forge Platform](https://github.com/forgeplatform).
+Part of the [Forail Platform](https://github.com/forail-platform).

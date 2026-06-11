@@ -1,6 +1,6 @@
 # Smart Recommendations
 
-Forge includes an intelligent recommendations engine that analyzes your platform configuration and suggests improvements across security, compliance, automation, and operational health.
+Forail includes an intelligent recommendations engine that analyzes your platform configuration and suggests improvements across security, compliance, automation, and operational health.
 
 ## How It Works
 

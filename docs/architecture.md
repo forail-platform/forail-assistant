@@ -2,17 +2,17 @@
 
 ## Overview
 
-Forge Assistant is a standalone microservice that provides AI-powered help for the Forge platform. It uses Retrieval-Augmented Generation (RAG) to answer questions based on indexed documentation.
+Forail Assistant is a standalone microservice that provides AI-powered help for the Forail platform. It uses Retrieval-Augmented Generation (RAG) to answer questions based on indexed documentation.
 
 ```
                     ┌─────────────────────────────────┐
-                    │         Forge Frontend           │
+                    │         Forail Frontend           │
                     │  (React chat panel component)    │
                     └───────────────┬──────────────────┘
                                     │ SSE (Server-Sent Events)
                                     ▼
                     ┌─────────────────────────────────┐
-                    │   Forge Assistant (all-in-one)   │
+                    │   Forail Assistant (all-in-one)   │
                     │                                  │
                     │  FastAPI  /api/v1/chat  → SSE    │
                     │           /api/v1/health→ JSON   │
@@ -81,7 +81,7 @@ Stores document chunks as vectors for similarity search. When a user asks a ques
 2. Indexer reads all .md files from docs_to_index/
 3. Each file is split into overlapping chunks (500 chars, 50 overlap)
 4. Each chunk is embedded via Ollama nomic-embed-text
-5. Embeddings + text stored in ChromaDB collection "forge_docs"
+5. Embeddings + text stored in ChromaDB collection "forail_docs"
 ```
 
 ## Design Decisions
@@ -89,9 +89,9 @@ Stores document chunks as vectors for similarity search. When a user asks a ques
 ### Why Standalone Service (Not Django App)?
 
 - **No Django dependency** — FastAPI is lighter, async-native, no ORM needed
-- **Optional** — can be added/removed without touching core Forge
+- **Optional** — can be added/removed without touching core Forail
 - **Independent scaling** — can run on a separate GPU server
-- **Independent release cycle** — update models without redeploying Forge
+- **Independent release cycle** — update models without redeploying Forail
 
 ### Why Ollama (Not OpenAI/Claude API)?
 

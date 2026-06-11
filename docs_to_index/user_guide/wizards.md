@@ -1,6 +1,6 @@
 # Setup Wizards
 
-Forge provides guided wizards that walk you through setting up each major feature area. Wizards are multi-step forms with validation, review, and smart defaults.
+Forail provides guided wizards that walk you through setting up each major feature area. Wizards are multi-step forms with validation, review, and smart defaults.
 
 ## Available Wizards
 

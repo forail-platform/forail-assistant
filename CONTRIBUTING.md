@@ -1,18 +1,18 @@
-# Contributing to forge-assistant
+# Contributing to forail-assistant
 
 Thanks for your interest in contributing!
 
-The full contributing guide — git workflow, commit conventions, coding standards, PR process — lives in the [forge-deploy repository](https://github.com/forgeplatform/forge-devops/blob/main/docs/10-contributing-guide.md). Please read it before submitting a pull request.
+The full contributing guide — git workflow, commit conventions, coding standards, PR process — lives in the [forail-deploy repository](https://github.com/forail-platform/forail-devops/blob/main/docs/10-contributing-guide.md). Please read it before submitting a pull request.
 
 ## What lives here
 
-FastAPI-based AI assistant service for the Forge platform. Ships as an all-in-one container image bundling Ollama (LLM runtime) and ChromaDB (vector store), with `gemma3:1b` as the default model.
+FastAPI-based AI assistant service for the Forail platform. Ships as an all-in-one container image bundling Ollama (LLM runtime) and ChromaDB (vector store), with `gemma3:1b` as the default model.
 
 ## Quick start
 
 ```bash
-git clone https://github.com/forgeplatform/forge-assistant.git
-cd forge-assistant
+git clone https://github.com/forail-platform/forail-assistant.git
+cd forail-assistant
 make develop          # build + run local container
 curl http://localhost:8001/health
 ```

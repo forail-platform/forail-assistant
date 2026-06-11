@@ -1,6 +1,6 @@
 # WebAuthn / Passkey MFA
 
-Forge supports WebAuthn (FIDO2) for multi-factor authentication. Users can register hardware security keys (YubiKey), platform authenticators (Touch ID, Windows Hello), or passkeys for passwordless login.
+Forail supports WebAuthn (FIDO2) for multi-factor authentication. Users can register hardware security keys (YubiKey), platform authenticators (Touch ID, Windows Hello), or passkeys for passwordless login.
 
 ## MFA Policy
 
@@ -25,14 +25,14 @@ Configure this in **Settings > Security > WebAuthn Required**.
 ## Authentication Flow
 
 1. User enters username and password on the login page.
-2. If MFA is required, Forge redirects to `/auth/mfa`.
+2. If MFA is required, Forail redirects to `/auth/mfa`.
 3. The browser prompts for the security key or passkey.
-4. Forge verifies the signature and sign count (replay protection).
+4. Forail verifies the signature and sign count (replay protection).
 5. On success, the session is created.
 
 ## Replay Protection
 
-Forge tracks the **sign count** of each authenticator. If a presented sign count is less than or equal to the stored count, the authentication is rejected as a potential replay attack. The exception is authenticators that never increment (both stored and presented are 0).
+Forail tracks the **sign count** of each authenticator. If a presented sign count is less than or equal to the stored count, the authentication is rejected as a potential replay attack. The exception is authenticators that never increment (both stored and presented are 0).
 
 ## Managing Keys
 

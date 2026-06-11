@@ -5,12 +5,12 @@ The assistant keeps **all** persistent state in one place:
 | Deployment | Location | Holds |
 |------------|----------|-------|
 | Docker Compose | volume `assistant_data` mounted at `/data` | ChromaDB vector store + pulled Ollama models |
-| Kubernetes (forge-helm) | PVC `forge-assistant-data` (default **20Gi**) at `/data` | same |
+| Kubernetes (forail-helm) | PVC `forail-assistant-data` (default **20Gi**) at `/data` | same |
 
 Inside `/data`:
 
-- **ChromaDB** — the embedded vector store; collection `forge_docs`
-  (configurable via `FORGE_ASSISTANT_CHROMA_COLLECTION`). This is the
+- **ChromaDB** — the embedded vector store; collection `forail_docs`
+  (configurable via `FORAIL_ASSISTANT_CHROMA_COLLECTION`). This is the
   RAG index built from your documentation.
 - **Ollama models** — the pulled LLM (`gemma3:1b` by default) and the
   embedding model (`nomic-embed-text`).
@@ -26,7 +26,7 @@ recovery, not a data-loss event:
 curl -X POST "http://localhost:8100/api/v1/index?rebuild=true"
 
 # Kubernetes
-kubectl -n forge exec deploy/forge-assistant -- \
+kubectl -n forail exec deploy/forail-assistant -- \
   curl -sX POST "http://localhost:8100/api/v1/index?rebuild=true"
 ```
 
@@ -57,17 +57,17 @@ corpora, back up the volume:
 
 ```bash
 # Compose — backup
-docker run --rm -v forge-assistant_assistant_data:/data -v "$(pwd)/backups":/backup \
+docker run --rm -v forail-assistant_assistant_data:/data -v "$(pwd)/backups":/backup \
   alpine tar czf /backup/assistant-data.tar.gz /data
 
 # Compose — restore
-docker run --rm -v forge-assistant_assistant_data:/data -v "$(pwd)/backups":/backup \
+docker run --rm -v forail-assistant_assistant_data:/data -v "$(pwd)/backups":/backup \
   alpine tar xzf /backup/assistant-data.tar.gz -C /
 ```
 
 ```bash
 # Kubernetes — snapshot the PVC with your CSI VolumeSnapshot class, or copy it out:
-kubectl -n forge exec deploy/forge-assistant -- tar czf - /data > assistant-data.tar.gz
+kubectl -n forail exec deploy/forail-assistant -- tar czf - /data > assistant-data.tar.gz
 ```
 
 For air-gapped clusters, back up `/data` **after** the first successful
@@ -86,4 +86,4 @@ model pull + index so the restore is fully self-contained.
 
 - [deployment.md](deployment.md#backup-and-restore) — backup/restore commands and removal
 - [ga-roadmap.md](ga-roadmap.md) — index lifecycle is a GA exit criterion
-- [configuration.md](configuration.md) — `FORGE_ASSISTANT_CHROMA_*` settings
+- [configuration.md](configuration.md) — `FORAIL_ASSISTANT_CHROMA_*` settings

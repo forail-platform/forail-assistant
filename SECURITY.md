@@ -35,7 +35,7 @@ We will credit you in the release notes unless you prefer to remain anonymous.
 
 In scope:
 
-- forge-assistant (this repository) — FastAPI service, embedded Ollama/ChromaDB orchestration
+- forail-assistant (this repository) — FastAPI service, embedded Ollama/ChromaDB orchestration
 - Prompt-injection vectors in user-controlled inputs flowing into the LLM
 - Auth/authz on assistant endpoints
 

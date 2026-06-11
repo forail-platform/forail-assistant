@@ -1,6 +1,6 @@
 # GA Roadmap
 
-Forge Assistant currently ships as a **preview** (see the status banner in
+Forail Assistant currently ships as a **preview** (see the status banner in
 the [README](../README.md)). This document defines what "preview" means,
 what has to be true to drop that label, and the planned path to General
 Availability (GA).
@@ -39,7 +39,7 @@ GA is declared when **all** of the following hold:
       Kubernetes PVC sizing guidance, validated under sustained load.
 - [ ] **Observability** — health, latency, and error metrics exported
       (OTel), so operators can alert on the assistant like any other
-      Forge component.
+      Forail component.
 - [ ] **Security review** — prompt-injection handling for indexed content,
       and confirmation that no chat content or documents leave the host
       (the privacy guarantee that motivates a self-hosted LLM).
@@ -56,7 +56,7 @@ GA is declared when **all** of the following hold:
 
 Until GA, the assistant tracks the platform **CalVer** release train
 (`YYYY.MM.PATCH`) like the other platform components — see
-[Versioning policy](../../forge-deploy/docs/00-platform-architecture.md#versioning-policy).
+[Versioning policy](../../forail-deploy/docs/00-platform-architecture.md#versioning-policy).
 At GA the `/api/v1` contract gains its own stability guarantee
 independent of the platform calendar.
 

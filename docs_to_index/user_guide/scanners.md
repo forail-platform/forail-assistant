@@ -1,6 +1,6 @@
 # IaC Scanners
 
-Forge integrates static analysis tools to scan Ansible playbooks, infrastructure-as-code, and Python dependencies before job execution. Scanners can warn about issues or block launches that have findings above a severity threshold.
+Forail integrates static analysis tools to scan Ansible playbooks, infrastructure-as-code, and Python dependencies before job execution. Scanners can warn about issues or block launches that have findings above a severity threshold.
 
 ## Supported Tools
 
@@ -24,7 +24,7 @@ Forge integrates static analysis tools to scan Ansible playbooks, infrastructure
 ## How Scanning Works
 
 1. User launches a job template.
-2. Forge checks all enabled scanners that apply to the resource type.
+2. Forail checks all enabled scanners that apply to the resource type.
 3. For each scanner, the tool runs against the project files.
 4. Output is parsed into **normalized findings** with rule_id, severity, file_path, line, and message.
 5. The **aggregate status** is computed:

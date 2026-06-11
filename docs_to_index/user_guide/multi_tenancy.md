@@ -1,6 +1,6 @@
 # Multi-Tenancy
 
-Multi-Tenancy provides resource isolation, quota enforcement, and per-tenant branding for organizations sharing a single Forge installation.
+Multi-Tenancy provides resource isolation, quota enforcement, and per-tenant branding for organizations sharing a single Forail installation.
 
 ## Features
 
@@ -13,7 +13,7 @@ Isolation modes:
 - **Audit only** — Cross-tenant access is logged but not blocked.
 - **Strict** — Cross-tenant access is blocked and logged.
 
-The isolation middleware sets a PostgreSQL session variable (`forge.current_tenant_id`) on each request.
+The isolation middleware sets a PostgreSQL session variable (`forail.current_tenant_id`) on each request.
 
 ### Quota Management
 

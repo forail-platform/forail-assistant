@@ -1,6 +1,6 @@
 # Configuration
 
-All configuration is via environment variables with the `FORGE_ASSISTANT_` prefix.
+All configuration is via environment variables with the `FORAIL_ASSISTANT_` prefix.
 
 ---
 
@@ -10,35 +10,35 @@ All configuration is via environment variables with the `FORGE_ASSISTANT_` prefi
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `FORGE_ASSISTANT_OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama API base URL (localhost — runs inside the same container) |
-| `FORGE_ASSISTANT_OLLAMA_MODEL` | `gemma3:1b` | LLM model for chat generation |
-| `FORGE_ASSISTANT_OLLAMA_EMBED_MODEL` | `nomic-embed-text` | Model for generating embeddings |
-| `FORGE_ASSISTANT_OLLAMA_TIMEOUT` | `120` | Timeout in seconds for Ollama requests |
+| `FORAIL_ASSISTANT_OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama API base URL (localhost — runs inside the same container) |
+| `FORAIL_ASSISTANT_OLLAMA_MODEL` | `gemma3:1b` | LLM model for chat generation |
+| `FORAIL_ASSISTANT_OLLAMA_EMBED_MODEL` | `nomic-embed-text` | Model for generating embeddings |
+| `FORAIL_ASSISTANT_OLLAMA_TIMEOUT` | `120` | Timeout in seconds for Ollama requests |
 
 ### ChromaDB Settings
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `FORGE_ASSISTANT_CHROMA_HOST` | `localhost` | ChromaDB hostname (localhost — embedded in the same container) |
-| `FORGE_ASSISTANT_CHROMA_PORT` | `8000` | ChromaDB port |
-| `FORGE_ASSISTANT_CHROMA_COLLECTION` | `forge_docs` | Collection name for indexed documents |
+| `FORAIL_ASSISTANT_CHROMA_HOST` | `localhost` | ChromaDB hostname (localhost — embedded in the same container) |
+| `FORAIL_ASSISTANT_CHROMA_PORT` | `8000` | ChromaDB port |
+| `FORAIL_ASSISTANT_CHROMA_COLLECTION` | `forail_docs` | Collection name for indexed documents |
 
 ### RAG Settings
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `FORGE_ASSISTANT_RAG_TOP_K` | `5` | Number of document chunks to retrieve per query |
-| `FORGE_ASSISTANT_RAG_CHUNK_SIZE` | `500` | Character count per document chunk |
-| `FORGE_ASSISTANT_RAG_CHUNK_OVERLAP` | `50` | Overlap between adjacent chunks |
+| `FORAIL_ASSISTANT_RAG_TOP_K` | `5` | Number of document chunks to retrieve per query |
+| `FORAIL_ASSISTANT_RAG_CHUNK_SIZE` | `500` | Character count per document chunk |
+| `FORAIL_ASSISTANT_RAG_CHUNK_OVERLAP` | `50` | Overlap between adjacent chunks |
 
 ### Application Settings
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `FORGE_ASSISTANT_APP_NAME` | `Forge Assistant` | Application display name |
-| `FORGE_ASSISTANT_APP_VERSION` | `2026.05.0` | Version string |
-| `FORGE_ASSISTANT_LOG_LEVEL` | `INFO` | Logging level (DEBUG, INFO, WARNING, ERROR) |
-| `FORGE_ASSISTANT_CORS_ORIGINS` | `*` | Comma-separated list of allowed CORS origins |
+| `FORAIL_ASSISTANT_APP_NAME` | `Forail Assistant` | Application display name |
+| `FORAIL_ASSISTANT_APP_VERSION` | `2026.05.0` | Version string |
+| `FORAIL_ASSISTANT_LOG_LEVEL` | `INFO` | Logging level (DEBUG, INFO, WARNING, ERROR) |
+| `FORAIL_ASSISTANT_CORS_ORIGINS` | `*` | Comma-separated list of allowed CORS origins |
 
 ---
 
@@ -55,10 +55,10 @@ All configuration is via environment variables with the `FORGE_ASSISTANT_` prefi
 To change the model:
 ```bash
 # Pull new model (exec into the all-in-one container)
-docker compose exec forge-assistant ollama pull llama3.1:8b
+docker compose exec forail-assistant ollama pull llama3.1:8b
 
 # Restart with new model
-FORGE_ASSISTANT_OLLAMA_MODEL=llama3.1:8b docker compose up -d
+FORAIL_ASSISTANT_OLLAMA_MODEL=llama3.1:8b docker compose up -d
 ```
 
 ---

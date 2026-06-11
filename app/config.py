@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # ChromaDB
     chroma_host: str = "localhost"
     chroma_port: int = 8000
-    chroma_collection: str = "forge_docs"
+    chroma_collection: str = "forail_docs"
 
     # RAG
     rag_top_k: int = 3
@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     rag_chunk_overlap: int = 50
 
     # App
-    app_name: str = "Forge Assistant"
+    app_name: str = "Forail Assistant"
     app_version: str = "2026.05.1"
     log_level: str = "INFO"
     cors_origins: str = "*"
@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     # endpoint is disabled (fail closed). Startup auto-indexing is unaffected.
     admin_token: str = ""
 
-    model_config = {"env_prefix": "FORGE_ASSISTANT_"}
+    model_config = {"env_prefix": "FORAIL_ASSISTANT_"}
 
 
 settings = Settings()

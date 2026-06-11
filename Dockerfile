@@ -1,4 +1,4 @@
-### Forge Assistant — All-in-one image
+### Forail Assistant — All-in-one image
 ### Ollama (LLM) + ChromaDB (embedded) + FastAPI in a single container
 
 FROM ollama/ollama:latest AS ollama
@@ -32,11 +32,11 @@ RUN chmod +x /entrypoint.sh
 RUN mkdir -p /data/ollama /data/chroma
 
 ENV OLLAMA_MODELS=/data/ollama
-ENV FORGE_ASSISTANT_OLLAMA_BASE_URL=http://localhost:11434
-ENV FORGE_ASSISTANT_OLLAMA_MODEL=gemma3:1b
-ENV FORGE_ASSISTANT_CHROMA_HOST=localhost
-ENV FORGE_ASSISTANT_CHROMA_PORT=8000
-ENV FORGE_ASSISTANT_LOG_LEVEL=INFO
+ENV FORAIL_ASSISTANT_OLLAMA_BASE_URL=http://localhost:11434
+ENV FORAIL_ASSISTANT_OLLAMA_MODEL=gemma3:1b
+ENV FORAIL_ASSISTANT_CHROMA_HOST=localhost
+ENV FORAIL_ASSISTANT_CHROMA_PORT=8000
+ENV FORAIL_ASSISTANT_LOG_LEVEL=INFO
 
 EXPOSE 8100
 

@@ -1,4 +1,4 @@
-"""Forge Assistant — FastAPI application."""
+"""Forail Assistant — FastAPI application."""
 
 import json
 import logging
@@ -118,7 +118,7 @@ async def trigger_index(
     x_admin_token: str | None = Header(default=None),
 ):
     """
-    Trigger document re-indexing. Protected by FORGE_ASSISTANT_ADMIN_TOKEN.
+    Trigger document re-indexing. Protected by FORAIL_ASSISTANT_ADMIN_TOKEN.
 
     When no admin token is configured the endpoint is disabled (503).
     When configured, callers must send a matching `X-Admin-Token` header.
@@ -126,7 +126,7 @@ async def trigger_index(
     if not settings.admin_token:
         raise HTTPException(
             status_code=503,
-            detail="Indexing endpoint disabled: set FORGE_ASSISTANT_ADMIN_TOKEN",
+            detail="Indexing endpoint disabled: set FORAIL_ASSISTANT_ADMIN_TOKEN",
         )
     if x_admin_token != settings.admin_token:
         raise HTTPException(status_code=401, detail="Invalid or missing X-Admin-Token")

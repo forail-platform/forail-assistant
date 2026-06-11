@@ -33,7 +33,7 @@ Audit events cannot be updated or deleted through the application. They are appe
 
 The `AuditEventSIEMSerializer` provides a flattened format suitable for ingestion into SIEM systems (Splunk, Elastic, etc.):
 - Detail fields are flattened with `detail_` prefix.
-- A `source` field is set to `forge`.
+- A `source` field is set to `forail`.
 - An `event_type` field combines category and action.
 
 ## Viewing Audit Events

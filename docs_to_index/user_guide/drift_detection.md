@@ -1,11 +1,11 @@
 # Drift Detection
 
-Drift Detection monitors configuration changes across your infrastructure by comparing Ansible facts between job runs. When a host's configuration changes unexpectedly, Forge detects the drift, categorizes it by severity, and can trigger alerts.
+Drift Detection monitors configuration changes across your infrastructure by comparing Ansible facts between job runs. When a host's configuration changes unexpectedly, Forail detects the drift, categorizes it by severity, and can trigger alerts.
 
 ## How It Works
 
-1. When a job runs with `gather_facts: true`, Forge captures a **Fact Snapshot** — the complete set of `ansible_facts` for each host.
-2. On the next run, Forge compares the new snapshot against the previous one using the **compute_drift** algorithm.
+1. When a job runs with `gather_facts: true`, Forail captures a **Fact Snapshot** — the complete set of `ansible_facts` for each host.
+2. On the next run, Forail compares the new snapshot against the previous one using the **compute_drift** algorithm.
 3. Any differences are recorded as **Drift Detections**, categorized by type and severity.
 4. If drift matches a **Drift Alert Rule**, an alert is fired and optionally a notification is sent.
 

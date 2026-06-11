@@ -1,6 +1,6 @@
-# Getting Started with Forge
+# Getting Started with Forail
 
-Forge is an infrastructure automation platform based on Ansible. It provides a web UI and REST API for managing Ansible playbooks, inventories, credentials, and job execution.
+Forail is an infrastructure automation platform based on Ansible. It provides a web UI and REST API for managing Ansible playbooks, inventories, credentials, and job execution.
 
 ## Key Concepts
 
@@ -27,7 +27,7 @@ You can also use the **Getting Started Wizard** at `/wizards/getting-started` wh
 
 ## RBAC (Role-Based Access Control)
 
-Forge uses organizations, teams, and roles to control who can do what:
+Forail uses organizations, teams, and roles to control who can do what:
 - **Admin** — Full control over the resource.
 - **Execute** — Can launch templates and read results.
 - **Read** — Can view the resource but not modify or launch.

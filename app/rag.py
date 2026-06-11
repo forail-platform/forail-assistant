@@ -36,7 +36,7 @@ def build_system_prompt(context_docs: list[str], page_context: str = "") -> str:
     """Build the system prompt with RAG context."""
     docs_text = "\n\n---\n\n".join(context_docs) if context_docs else "No documentation context available."
 
-    prompt = f"""You are Forge Assistant, an AI helper for the Forge infrastructure automation platform.
+    prompt = f"""You are Forail Assistant, an AI helper for the Forail infrastructure automation platform.
 
 Answer questions using the following documentation context. If the documentation does not contain the answer, say so honestly — do not make things up.
 

@@ -11,7 +11,7 @@ class TestBuildSystemPrompt:
 
     def test_with_docs(self):
         prompt = build_system_prompt(["Doc chunk 1", "Doc chunk 2"])
-        assert "Forge Assistant" in prompt
+        assert "Forail Assistant" in prompt
         assert "Doc chunk 1" in prompt
         assert "Doc chunk 2" in prompt
 

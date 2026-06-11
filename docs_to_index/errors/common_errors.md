@@ -12,13 +12,13 @@ The selected playbook does not exist in the project. Sync the project first (Pro
 The machine credential does not have the correct SSH key or password. Verify:
 - The SSH username is correct.
 - The private key or password matches the target host.
-- The target host allows SSH access from the Forge server.
+- The target host allows SSH access from the Forail server.
 
 ### "Host key verification failed"
-Add `host_key_checking = False` to your ansible.cfg, or add the host key to known_hosts on the Forge server.
+Add `host_key_checking = False` to your ansible.cfg, or add the host key to known_hosts on the Forail server.
 
 ### Job hangs in "Pending" status
-- Check that the task worker is running (`forge-task` container).
+- Check that the task worker is running (`forail-task` container).
 - Check instance capacity at **Admin > Instances**.
 - If using tenancy, verify the tenant queue has capacity.
 
@@ -31,7 +31,7 @@ Check the job's stdout for the full error. Common causes:
 ## Authentication Issues
 
 ### "CSRF verification failed"
-The CSRF trusted origins are not configured. Add your domain to Settings > CSRF_TRUSTED_ORIGINS, or set the `FORGE_CSRF_TRUSTED_ORIGINS` environment variable.
+The CSRF trusted origins are not configured. Add your domain to Settings > CSRF_TRUSTED_ORIGINS, or set the `FORAIL_CSRF_TRUSTED_ORIGINS` environment variable.
 
 ### "Invalid credentials"
 - Verify username and password.
@@ -58,8 +58,8 @@ The specified branch does not exist in the remote repository. Check the branch n
 ### "Could not resolve hostname"
 DNS resolution failed for a host in the inventory. Verify:
 - The hostname is spelled correctly.
-- DNS is configured on the Forge server.
-- The host is reachable from the Forge network.
+- DNS is configured on the Forail server.
+- The host is reachable from the Forail network.
 
 ## Policy/Scanner Issues
 

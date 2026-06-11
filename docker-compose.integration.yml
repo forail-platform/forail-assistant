@@ -1,12 +1,12 @@
-# Integration overlay for forge-deploy
+# Integration overlay for forail-deploy
 # Usage: docker compose -f docker-compose.yml -f docker-compose.integration.yml up -d
 services:
-  forge-assistant:
+  forail-assistant:
     networks:
       - default
-      - forge
+      - forail
 
 networks:
-  forge:
-    name: forge-deploy_forge
+  forail:
+    name: forail-deploy_forail
     external: true

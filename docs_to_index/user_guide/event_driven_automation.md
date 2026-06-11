@@ -1,12 +1,12 @@
 # Event-Driven Automation (EDA)
 
-Event-Driven Automation lets Forge react to external events in real time. Incoming webhooks trigger automated actions — launching job templates, workflows, or sending notifications — based on configurable rules.
+Event-Driven Automation lets Forail react to external events in real time. Incoming webhooks trigger automated actions — launching job templates, workflows, or sending notifications — based on configurable rules.
 
 ## Core Concepts
 
 - **Event Rule** — A rule that listens on a webhook URL, evaluates conditions against the incoming payload, and fires actions when conditions match.
 - **Event Log** — An immutable record of every webhook event received, with condition evaluation results and action outcomes.
-- **Outbound Webhook** — Sends HTTP POST notifications to external URLs when Forge jobs change state (started, succeeded, failed, canceled).
+- **Outbound Webhook** — Sends HTTP POST notifications to external URLs when Forail jobs change state (started, succeeded, failed, canceled).
 
 ## Event Rules
 
@@ -34,7 +34,7 @@ Event-Driven Automation lets Forge react to external events in real time. Incomi
 Each event rule has a **Webhook Key** used for HMAC signature verification:
 - **GitHub**: `X-Hub-Signature-256` header, SHA-256 HMAC.
 - **GitLab**: `X-Gitlab-Token` header, direct token comparison.
-- **Generic**: `X-Forge-Signature` header, SHA-256 HMAC.
+- **Generic**: `X-Forail-Signature` header, SHA-256 HMAC.
 - If the signature does not match, the event is rejected with `signature_failed` status.
 
 ### Event Deduplication
@@ -51,7 +51,7 @@ Outbound webhooks push job lifecycle events to external systems (Slack, PagerDut
    - **Events** — Which job events to send: `job.started`, `job.succeeded`, `job.failed`, `job.canceled`, `workflow.started`, `workflow.succeeded`, `workflow.failed`.
    - **Custom Headers** — Additional headers to include.
    - **SSL Verify** — Whether to verify TLS certificates (default: yes).
-3. Each delivery is signed with `X-Forge-Signature` (SHA-256 HMAC) using the webhook key.
+3. Each delivery is signed with `X-Forail-Signature` (SHA-256 HMAC) using the webhook key.
 
 ## API Endpoints
 

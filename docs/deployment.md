@@ -5,11 +5,11 @@
 Run the assistant independently:
 
 ```bash
-cd forge-assistant
+cd forail-assistant
 docker compose up -d
 ```
 
-This starts a **single all-in-one container** (`forge-assistant`) that bundles:
+This starts a **single all-in-one container** (`forail-assistant`) that bundles:
 - **Ollama** — LLM server (internal, port 11434)
 - **ChromaDB** — vector store (embedded, port 8000)
 - **FastAPI** — API server (exposed on port 8100)
@@ -23,7 +23,7 @@ On first start, the entrypoint automatically pulls the LLM model (`gemma3:1b`) a
 docker compose up -d
 
 # 2. Wait for health check to pass (start_period is 120s)
-docker compose logs -f forge-assistant
+docker compose logs -f forail-assistant
 
 # 3. Index documentation
 curl -X POST http://localhost:8100/api/v1/index
@@ -34,26 +34,26 @@ curl http://localhost:8100/api/v1/health
 
 ---
 
-## Integration with Forge Platform
+## Integration with Forail Platform
 
 ### Step 1: Add to Docker Compose
 
-In your `forge-deploy` directory:
+In your `forail-deploy` directory:
 
 ```bash
 docker compose -f docker-compose.yml \
-  -f /path/to/forge-assistant/docker-compose.integration.yml \
+  -f /path/to/forail-assistant/docker-compose.integration.yml \
   up -d
 ```
 
 ### Step 2: Configure Nginx
 
-Add to your Forge nginx configuration:
+Add to your Forail nginx configuration:
 
 ```nginx
-# In forge-deploy/nginx/nginx.conf, inside the server block:
+# In forail-deploy/nginx/nginx.conf, inside the server block:
 location /assistant/ {
-    proxy_pass http://forge-assistant:8100/;
+    proxy_pass http://forail-assistant:8100/;
     proxy_http_version 1.1;
     proxy_set_header Connection '';
     proxy_set_header X-Real-IP $remote_addr;
@@ -68,7 +68,7 @@ location /assistant/ {
 
 ### Step 3: Frontend Detection
 
-The Forge frontend automatically detects the assistant by calling `/assistant/api/v1/health`. If the endpoint responds, the chat button appears in the UI.
+The Forail frontend automatically detects the assistant by calling `/assistant/api/v1/health`. If the endpoint responds, the chat button appears in the UI.
 
 ---
 
@@ -78,7 +78,7 @@ For GPU-accelerated inference, uncomment the GPU section in `docker-compose.yml`
 
 ```yaml
 services:
-  forge-assistant:
+  forail-assistant:
     deploy:
       resources:
         reservations:
@@ -100,7 +100,7 @@ Requirements:
 For servers without GPU, use a smaller model:
 
 ```bash
-FORGE_ASSISTANT_OLLAMA_MODEL=phi3:mini docker compose up -d
+FORAIL_ASSISTANT_OLLAMA_MODEL=phi3:mini docker compose up -d
 ```
 
 Response time will be 10-20 seconds instead of 2-5 seconds.
@@ -109,19 +109,19 @@ Response time will be 10-20 seconds instead of 2-5 seconds.
 
 ## Removing the Assistant
 
-To remove the assistant from a running Forge deployment:
+To remove the assistant from a running Forail deployment:
 
 ```bash
 # Stop assistant service
 docker compose -f docker-compose.yml \
-  -f /path/to/forge-assistant/docker-compose.integration.yml \
-  down forge-assistant
+  -f /path/to/forail-assistant/docker-compose.integration.yml \
+  down forail-assistant
 
 # Or if running standalone
-cd forge-assistant && docker compose down -v
+cd forail-assistant && docker compose down -v
 ```
 
-The Forge platform continues to work normally. The chat button disappears automatically when the health check fails.
+The Forail platform continues to work normally. The chat button disappears automatically when the health check fails.
 
 ---
 
@@ -131,11 +131,11 @@ All persistent data (ChromaDB + Ollama models) is stored in the `assistant_data`
 
 ```bash
 # Backup
-docker run --rm -v forge-assistant_assistant_data:/data -v $(pwd)/backups:/backup \
+docker run --rm -v forail-assistant_assistant_data:/data -v $(pwd)/backups:/backup \
   alpine tar czf /backup/assistant-data.tar.gz /data
 
 # Restore
-docker run --rm -v forge-assistant_assistant_data:/data -v $(pwd)/backups:/backup \
+docker run --rm -v forail-assistant_assistant_data:/data -v $(pwd)/backups:/backup \
   alpine tar xzf /backup/assistant-data.tar.gz -C /
 ```
 
@@ -151,6 +151,6 @@ The repository ships with a **GitHub Actions** workflow in `.github/workflows/ci
 2. **Test** — pytest with JUnit XML reporting
 3. **Build** — Docker image build
 4. **Scan** — Trivy container vulnerability scan
-5. **Push** — Push to `ghcr.io/forgeplatform/forge-assistant` (main branch and version tags only)
+5. **Push** — Push to `ghcr.io/forail-platform/forail-assistant` (main branch and version tags only)
 
 Tests must pass before any image is built or pushed. Releases use the built-in `GITHUB_TOKEN` with `packages: write` — no external secrets required.

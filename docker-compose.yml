@@ -1,14 +1,14 @@
 services:
-  forge-assistant:
+  forail-assistant:
     build: .
-    image: ghcr.io/forgeplatform/forge-assistant:latest
+    image: ghcr.io/forail-platform/forail-assistant:latest
     ports:
       - "8100:8100"
     volumes:
       - assistant_data:/data
     environment:
-      - FORGE_ASSISTANT_OLLAMA_MODEL=gemma3:1b
-      - FORGE_ASSISTANT_LOG_LEVEL=INFO
+      - FORAIL_ASSISTANT_OLLAMA_MODEL=gemma3:1b
+      - FORAIL_ASSISTANT_LOG_LEVEL=INFO
     # Uncomment for GPU support:
     # deploy:
     #   resources:
