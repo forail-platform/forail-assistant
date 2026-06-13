@@ -22,7 +22,7 @@ class Settings(BaseSettings):
 
     # App
     app_name: str = "Forail Assistant"
-    app_version: str = "2026.05.1"
+    app_version: str = "2026.06.0"
     log_level: str = "INFO"
     cors_origins: str = "*"
 

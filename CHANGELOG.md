@@ -4,6 +4,13 @@ All notable changes to the Forail Assistant will be documented in this file.
 
 ## [Unreleased]
 
+## [2026.06.0] - 2026-06-14
+
+### Changed
+- **Renamed `forge` → `forail`** across the entire project (organization `forgeplatform` → `forail-platform`): the FastAPI service, image references (`ghcr.io/forail-platform/forail-*`), CLI, and all documentation/URLs. The GitHub organization and repositories were renamed to match.
+- Versioning unified across all platform components to CalVer `2026.06.0`.
+
+
 ## [2026.05.0] - 2026-05-22
 
 ### Changed
